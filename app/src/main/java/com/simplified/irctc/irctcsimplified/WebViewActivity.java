@@ -15,11 +15,21 @@ import android.webkit.WebViewClient;
 public class WebViewActivity extends AppCompatActivity {
     private final String TAG = WebViewActivity.class.getName();
     WebView mView;
+    String username = "";
+    String passWord = "";
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_webview);
+        Bundle userData = getIntent().getExtras();
+
+        if (userData != null) {
+            username = userData.getString(Constants.USERNAME);
+            passWord = userData.getString(Constants.PASSWORD);
+        }
+
+        Log.d(TAG, "usernmae is  " + username + " password is " + passWord);
         mView = (WebView) findViewById(R.id.webView);
         mView.getSettings().setLoadWithOverviewMode(true);
         mView.getSettings().setJavaScriptEnabled(true);
@@ -42,9 +52,16 @@ public class WebViewActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                Log.d(TAG, "page finished loading " + url);
+                mView.loadUrl("javascript:document.querySelector('input[name=j_username]').value ='manish';");
+                mView.loadUrl("javascript:$('input[name=\'j_username\']').val('arjun');");
+//                mView.loadUrl("javascript:document.querySelector('input[name=j_password]').value ='" + passWord + "'");
+//                mView.loadUrl("javascript:document.querySelector('input[name=otp]').click()");
             }
+
         });
 
         mView.loadUrl(Constants.login_url);
+
     }
 }
