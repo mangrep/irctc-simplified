@@ -22,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final AppCompatEditText userNameET = (AppCompatEditText) findViewById(R.id.username);
+        userNameET.setText("");
         final AppCompatEditText passwordEt = (AppCompatEditText) findViewById(R.id.password);
+        passwordEt.setText("");
         AppCompatButton loginButton = (AppCompatButton) findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
