@@ -53,8 +53,10 @@ public class WebViewActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 Log.d(TAG, "page finished loading " + url);
-                mView.loadUrl("javascript:document.querySelector('input[name=j_username]').value ='manish';");
-                mView.loadUrl("javascript:$('input[name=\'j_username\']').val('arjun');");
+                mView.loadUrl("javascript: (function(username, password) {\n" +
+                        "    document.querySelector(\"input[name=j_username]\").value = username , document.querySelector(\"input[name=j_password]\").value = password\n" +
+                        "})('" + username + "', '" + passWord + "') ");
+//                mView.loadUrl("javascript:$('input[name=\'j_username\']').val('arjun');");
 //                mView.loadUrl("javascript:document.querySelector('input[name=j_password]').value ='" + passWord + "'");
 //                mView.loadUrl("javascript:document.querySelector('input[name=otp]').click()");
             }
