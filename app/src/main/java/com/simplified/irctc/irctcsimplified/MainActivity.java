@@ -3,8 +3,6 @@ package com.simplified.irctc.irctcsimplified;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
@@ -23,24 +21,17 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        AppCompatEditText userNameET = (AppCompatEditText) findViewById(R.id.username);
-        AppCompatEditText passwordEt = (AppCompatEditText) findViewById(R.id.password);
+        final AppCompatEditText userNameET = (AppCompatEditText) findViewById(R.id.username);
+        final AppCompatEditText passwordEt = (AppCompatEditText) findViewById(R.id.password);
         AppCompatButton loginButton = (AppCompatButton) findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, WebViewActivity.class);
                 Bundle userDataBundel = new Bundle();
-                userDataBundel.putString(Constants.USERID, );
+                userDataBundel.putString(Constants.USERNAME, userNameET.getText().toString());
+                userDataBundel.putString(Constants.PASSWORD, passwordEt.getText().toString());
+                intent.putExtras(userDataBundel);
                 startActivity(intent);
             }
         });

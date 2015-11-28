@@ -5,4 +5,6 @@ package com.simplified.irctc.irctcsimplified;
  */
 public interface Constants {
     String login_url = "https://www.irctc.co.in/eticketing/loginHome.jsf";
+    String USERNAME = "username";
+    String PASSWORD = "password";
 }
