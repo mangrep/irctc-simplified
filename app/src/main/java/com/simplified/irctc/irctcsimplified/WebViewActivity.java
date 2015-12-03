@@ -11,6 +11,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -97,7 +99,23 @@ public class WebViewActivity extends AppCompatActivity {
         mView.getSettings().setJavaScriptEnabled(true);
         mView.getSettings().setUseWideViewPort(false);
         mView.getSettings().setBuiltInZoomControls(true);
-
+        mView.getSettings().setDomStorageEnabled(true);
+        mView.getSettings().setSupportMultipleWindows(true);
+        mView.addJavascriptInterface(WebViewActivity.this, "manish");
+        mView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                Log.d(TAG, "newProgress " + newProgress + " ");
+//                if (Constants.login_url.equalsIgnoreCase(url)) {
+//                mView.loadUrl("javascript: (function(username, password) {\n" +
+//                        "    document.querySelector(\"input[name=j_username]\").value = username , document.querySelector(\"input[name=j_password]\").value = password\n" +
+//                        "})('" + username + "', '" + passWord + "') ");
+//                mView.loadUrl("javascript:document.querySelector('input[name=otp]').click()");
+//                mView.loadUrl("javascript:document.querySelector('input[name=submit]').click()");
+//                }
+            }
+        });
         mView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
@@ -115,27 +133,37 @@ public class WebViewActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 Log.d(TAG, "page finished loading " + url);
-                if (Constants.login_url.equalsIgnoreCase(url)) {
-                    mView.loadUrl("javascript: (function(username, password) {\n" +
-                            "    document.querySelector(\"input[name=j_username]\").value = username , document.querySelector(\"input[name=j_password]\").value = password\n" +
-                            "})('" + username + "', '" + passWord + "') ");
-                    mView.loadUrl("javascript:document.querySelector('input[name=otp]').click()");
-                    mView.loadUrl("javascript:document.querySelector('input[name=submit]').click()");
-                } else if (Constants.otp_page_url.equalsIgnoreCase(url)) {
-                    Log.d(TAG, "setting otp");
-                    mView.loadUrl("javascript:(function(a){\n" +
-                            "document.querySelector('input[name=loginotp]').value=a,\n" +
-                            "document.querySelector('input[type=submit]').click()})('" + otp + "');");
-                }
+                mView.loadUrl("javascript:" + "/" + "www.irctc.co.in" + "/.test(location.host)?manish.init():manish.init()");
+//                if (Constants.login_url.equalsIgnoreCase(url)) {
+//                    mView.loadUrl("javascript: (function(username, password) {\n" +
+//                            "    document.querySelector(\"input[name=j_username]\").value = username , document.querySelector(\"input[name=j_password]\").value = password\n" +
+//                            "})('" + username + "', '" + passWord + "') ");
+//                    mView.loadUrl("javascript:document.querySelector('input[name=otp]').click()");
+//                    mView.loadUrl("javascript:document.querySelector('input[name=submit]').click()");
+//                } else if (Constants.otp_page_url.equalsIgnoreCase(url)) {
+//                    Log.d(TAG, "setting otp");
+//                    mView.loadUrl("javascript:(function(a){\n" +
+//                            "document.querySelector('input[name=loginotp]').value=a,\n" +
+//                            "document.querySelector('input[type=submit]').click()})('" + otp + "');");
+//                }
 
 //                mView.loadUrl("javascript:$('input[name=\'j_username\']').val('arjun');");
 //                mView.loadUrl("javascript:document.querySelector('input[name=j_password]').value ='" + passWord + "'");
 //                mView.loadUrl("javascript:document.querySelector('input[name=otp]').click()");
             }
-
         });
 
         mView.loadUrl(Constants.login_url);
+
+    }
+
+    @JavascriptInterface
+    public void init() {
+        Log.d(TAG, " say hello");
+    }
+
+    @JavascriptInterface
+    void nativeHelperForNB() {
 
     }
 }
